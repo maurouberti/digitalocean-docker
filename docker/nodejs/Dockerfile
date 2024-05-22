@@ -8,8 +8,6 @@ RUN apk update && \
 ENV TZ America/Sao_Paulo
 ENV NODE_ENV production
 
-RUN npm install
-
 EXPOSE 3000
 
 CMD ["node", "index.js"]

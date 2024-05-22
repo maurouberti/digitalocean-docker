@@ -5,4 +5,4 @@ WORKDIR /var/www
 RUN apk update && \
     apk add --no-cache curl
 
-EXPOSE 80 443 8000
+EXPOSE 80 443
