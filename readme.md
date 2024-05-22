@@ -1,7 +1,7 @@
 ![Static Badge](https://img.shields.io/badge/DigitalOcean-0080FF?logo=DigitalOcean&logoColor=ffffff)
 ![Static Badge](https://img.shields.io/badge/Terraform-%23844FBA?logo=Terraform&logoColor=ffffff)
 ![Static Badge](https://img.shields.io/badge/Ansible-%23EE0000?logo=ansible&logoColor=ffffff)
-![Static Badge](https://img.shields.io/badge/docker-2496ED?logo=docker&logoColor=ffffff)
+![Static Badge](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=ffffff)
 
 ![Static Badge](https://img.shields.io/badge/nginx-1.25.5--alpine-009639?logo=nginx&logoColor=ffffff)
 ![Static Badge](https://img.shields.io/badge/php-8.3--fpm--alpine-777BB4?logo=php&logoColor=ffffff)
@@ -22,12 +22,10 @@ chmod 600 ./tokens/tf-digitalocean-exemplo
 
 ```
 terraform init
-terraform apply
+terraform apply -auto-approve
 ```
 
 ## ansible
-
-Alterar o IP no **/ansible/hosts**
 
 ```
 ansible-playbook ./ansible/playbook.yml -i ./ansible/hosts --private-key=./tokens/tf-digitalocean-exemplo
@@ -36,15 +34,13 @@ ansible-playbook ./ansible/playbook.yml -i ./ansible/hosts --private-key=./token
 ## acessar droplet via ssh
 
 ```
-ssh root@64.23.154.171 -i ./tokens/tf-digitalocean-exemplo
+ssh root@sane-maquiagem.com.br -i ./tokens/tf-digitalocean-exemplo
 ```
 
-<!-- 
-## wsl
+# Excluir infra
 
 ```
-cp tf-digitalocean-exemplo* ~/.ssh/ 
-chmod 600 ~/.ssh/tf-digitalocean-exemplo
+terraform destroy -auto-approve
+rm -f ./tokens/tf-digitalocean-exemplo ./tokens/tf-digitalocean-exemplo.pub
+rm -rf .terraform && rm terraform.tfstate && rm terraform.tfstate.backup && rm .terraform.lock.hcl
 ```
-
-> wsl: --private-key=~/.ssh/tf-digitalocean-exemplo -->
