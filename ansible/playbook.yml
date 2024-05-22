@@ -1,0 +1,70 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+    - name: docker - Remover pacotes Docker
+      ansible.builtin.package:
+        name:
+          - docker.io
+          - docker-doc
+          - docker-compose
+          - docker-compose-v2
+          - podman-docker
+          - containerd
+          - runc
+        state: absent
+
+    - name: docker - Baixar o script de instalação do Docker
+      ansible.builtin.get_url:
+        url: https://get.docker.com
+        dest: /tmp/get-docker.sh
+        mode: "0755"
+
+    - name: docker - Executar o script de instalação do Docker
+      ansible.builtin.shell: sh /tmp/get-docker.sh
+
+
+
+
+
+    - name: infra - Criando diretório
+      ansible.builtin.file:
+        path: /iplugged
+        state: directory
+        mode: "0755"
+
+    - name: infra - Copiando diretorios e arquivos
+      ansible.builtin.copy:
+        src: "../docker/"
+        dest: /iplugged
+
+
+
+
+
+    - name: community.docker - Instalar o pacote python3-docker
+      apt:
+        name: python3-docker
+        state: present
+
+    - name: docker-compose - Instalar o docker-compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: docker-compose - iniciando containers
+      community.docker.docker_compose:
+        project_src: "/iplugged/"
+        state: present
+
+
+
+
+
+    - name: git - Instalando pacotes
+      ansible.builtin.apt:
+        pkg:
+          - git
+        state: latest
+        update_cache: yes
